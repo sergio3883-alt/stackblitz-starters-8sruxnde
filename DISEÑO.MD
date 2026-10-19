@@ -39,3 +39,34 @@ Durante el sprint 1, los integrantes y las tareas se almacenarán en
 arreglos en memoria. Los registros se perderán al reiniciar el servidor.
 
 Los identificadores serán generados por el sistema.
+
+## 2. Rutas de la API
+
+### Rutas de integrantes
+
+| Método | Ruta | Qué hace | Implementación prevista |
+|---|---|---|---|
+| GET | /integrantes | Lista todos los integrantes registrados. | Semana 2 |
+| GET | /integrantes/:id | Consulta un integrante por su identificador. | Semana 2 |
+| POST | /integrantes | Registra un integrante con nombre y correo electrónico. | Semana 2 |
+
+### Rutas de tareas
+
+| Método | Ruta | Qué hace | Implementación prevista |
+|---|---|---|---|
+| GET | /tareas | Lista todas las tareas registradas. | Semana 2 |
+| GET | /tareas/:id | Consulta la información completa de una tarea por su identificador. | Semana 2 |
+| POST | /tareas | Crea una tarea con título, descripción, responsable, estado y fecha límite. | Semana 2 |
+| PUT | /tareas/:id | Modifica los datos de una tarea, incluido su responsable o estado. | Semana 3 |
+| DELETE | /tareas/:id | Elimina una tarea existente. | Semana 3 |
+
+### Filtros de tareas
+
+| Método | Ruta de ejemplo | Qué hace | Implementación prevista |
+|---|---|---|---|
+| GET | /tareas?estado=pendiente | Consulta las tareas que tienen el estado indicado. | Semana 3 |
+| GET | /tareas?responsable=1 | Consulta las tareas asignadas al integrante indicado. | Semana 3 |
+
+Los filtros utilizarán parámetros de consulta de la ruta GET /tareas.
+
+El cambio de estado y de responsable se realizará mediante PUT /tareas/:id.
