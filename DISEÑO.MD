@@ -70,3 +70,37 @@ Los identificadores serán generados por el sistema.
 Los filtros utilizarán parámetros de consulta de la ruta GET /tareas.
 
 El cambio de estado y de responsable se realizará mediante PUT /tareas/:id.
+
+## 3. Estructura de carpetas del proyecto
+
+```text
+gestor-tareas-equipo/
+  src/
+    routes/
+      integrantes.js
+      tareas.js
+    controllers/
+      integrantesController.js
+      tareasController.js
+    data/
+      integrantes.js
+      tareas.js
+  index.js
+  package.json
+  requisitos.md
+  diseño.md
+  README.md
+```
+
+### Función de las carpetas y archivos
+
+| Carpeta o archivo | Función |
+|---|---|
+| src/routes | Define las rutas de la API y las conecta con las funciones de los controladores. |
+| src/controllers | Contiene la lógica de las operaciones y las validaciones correspondientes. |
+| src/data | Guarda los arreglos en memoria y las funciones para consultar y modificar sus registros. |
+| index.js | Configura Express, conecta las rutas e inicia el servidor. |
+| package.json | Contiene la información del proyecto, sus dependencias y el comando de inicio. |
+| requisitos.md | Contiene los actores y los requisitos funcionales y no funcionales. |
+| diseño.md | Contiene el modelo de datos, las rutas y la estructura del proyecto. |
+| README.md | Presenta el proyecto y contiene su planeación ágil. |
