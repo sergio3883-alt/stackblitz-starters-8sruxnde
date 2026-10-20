@@ -65,17 +65,17 @@ HU7 y HU14 están relacionadas y se resolverán con la misma validación. Se con
 
                                             | Por hacer |                             | En progreso | Hecho |
 
-| HU1 · Crear tareas                            | - |                                       | — |     | — |
-| HU2 · Listar tareas                           | - |                                       | — |     | — |
-| HU3 · Consultar una tarea                     | — |                                       | — |     | — |
+| HU1 · Crear tareas                            | - |                                       | — |     | x |
+| HU2 · Listar tareas                           | - |                                       | — |     | x |
+| HU3 · Consultar una tarea                     | — |                                       | — |     | x |
 | HU4 · Editar tareas                           | — |                                       | — |     | — |
 | HU5 · Eliminar tareas                         | — |                                       | — |     | — |
-| HU6 · Disponer de integrantes registrados     | — |                                       | — |     | — |
+| HU6 · Disponer de integrantes registrados     | — |                                       | — |     | x |
 | HU7 · Asignar responsables registrados        | — |                                       | — |     | — |
 | HU8 · Cambiar el estado                       | — |                                       | — |     | — |
 | HU9 · Utilizar los estados permitidos         | — |                                       | — |     | — |
 | HU10 · Filtrar por estado                     | — |                                       | — |     | — |
 | HU11 · Filtrar por responsable                | — |                                       | — |     | — |
-| HU12 · Identificar las tareas                 | — |                                       | — |     | — |                                 
-| HU13 · Identificar los integrantes            | — |                                       | — |     | — |
+| HU12 · Identificar las tareas                 | — |                                       | — |     | x |                                 
+| HU13 · Identificar los integrantes            | — |                                       | — |     | x |
 | HU14 · Verificar al responsable               | — |                                       | — |     | — |
