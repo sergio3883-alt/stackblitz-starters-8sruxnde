@@ -7,8 +7,8 @@ Como integrante del equipo, quiero crear una tarea con título, descripción, re
 Criterio de aceptación: al enviar POST /tareas con los campos obligatorios, la API responde con código 201 y la tarea aparece posteriormente en GET /tareas.
 
 **Tareas:**
-- [ ] Crear la función para guardar tareas en el arreglo en memoria.
-- [ ] Recibir título, descripción, responsable, estado y fecha límite.
+- [x] Crear la función para guardar tareas en el arreglo en memoria.
+- [x] Recibir título, descripción, responsable, estado y fecha límite.
 - [ ] Validar los campos obligatorios y sus tipos básicos.
 - [ ] Conectar POST /tareas con el controlador de creación.
 - [ ] Comprobar que una creación válida devuelve 201.
