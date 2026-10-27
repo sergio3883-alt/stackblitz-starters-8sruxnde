@@ -9,10 +9,10 @@ Criterio de aceptación: al enviar POST /tareas con los campos obligatorios, la 
 **Tareas:**
 - [x] Crear la función para guardar tareas en el arreglo en memoria.
 - [x] Recibir título, descripción, responsable, estado y fecha límite.
-- [ ] Validar los campos obligatorios y sus tipos básicos.
-- [ ] Conectar POST /tareas con el controlador de creación.
-- [ ] Comprobar que una creación válida devuelve 201.
-- [ ] Comprobar que la tarea creada aparece en el listado.
+- [x] Validar los campos obligatorios y sus tipos básicos.
+- [x] Conectar POST /tareas con el controlador de creación.
+- [x] Comprobar que una creación válida devuelve 201.
+- [x] Comprobar que la tarea creada aparece en el listado.
 
 HU2. Listar tareas — RF2
 Como integrante del equipo, quiero consultar el listado de todas las tareas registradas, para conocer las actividades del equipo.
