@@ -172,11 +172,11 @@ HU7 y HU14 están relacionadas y se resolverán con la misma validación. Se con
 | HU4 · Editar tareas                           | — |                                       | — |     | x |
 | HU5 · Eliminar tareas                         | — |                                       | — |     | x |
 | HU6 · Disponer de integrantes registrados     | — |                                       | — |     | x |
-| HU7 · Asignar responsables registrados        | — |                                       | — |     | — |
-| HU8 · Cambiar el estado                       | — |                                       | — |     | — |
-| HU9 · Utilizar los estados permitidos         | — |                                       | — |     | — |
-| HU10 · Filtrar por estado                     | — |                                       | — |     | — |
-| HU11 · Filtrar por responsable                | — |                                       | — |     | — |
+| HU7 · Asignar responsables registrados        | — |                                       | — |     | x |
+| HU8 · Cambiar el estado                       | — |                                       | — |     | x |
+| HU9 · Utilizar los estados permitidos         | — |                                       | — |     | x |
+| HU10 · Filtrar por estado                     | — |                                       | — |     | x |
+| HU11 · Filtrar por responsable                | — |                                       | — |     | x |
 | HU12 · Identificar las tareas                 | — |                                       | — |     | x |                                 
 | HU13 · Identificar los integrantes            | — |                                       | — |     | x |
-| HU14 · Verificar al responsable               | — |                                       | — |     | — |
+| HU14 · Verificar al responsable               | — |                                       | — |     | x |
