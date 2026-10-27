@@ -169,8 +169,8 @@ HU7 y HU14 están relacionadas y se resolverán con la misma validación. Se con
 | HU1 · Crear tareas                            | - |                                       | — |     | x |
 | HU2 · Listar tareas                           | - |                                       | — |     | x |
 | HU3 · Consultar una tarea                     | — |                                       | — |     | x |
-| HU4 · Editar tareas                           | — |                                       | — |     | — |
-| HU5 · Eliminar tareas                         | — |                                       | — |     | — |
+| HU4 · Editar tareas                           | — |                                       | — |     | x |
+| HU5 · Eliminar tareas                         | — |                                       | — |     | x |
 | HU6 · Disponer de integrantes registrados     | — |                                       | — |     | x |
 | HU7 · Asignar responsables registrados        | — |                                       | — |     | — |
 | HU8 · Cambiar el estado                       | — |                                       | — |     | — |
