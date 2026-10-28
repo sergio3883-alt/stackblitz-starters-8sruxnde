@@ -180,3 +180,14 @@ HU7 y HU14 están relacionadas y se resolverán con la misma validación. Se con
 | HU12 · Identificar las tareas                 | — |                                       | — |     | x |                                 
 | HU13 · Identificar los integrantes            | — |                                       | — |     | x |
 | HU14 · Verificar al responsable               | — |                                       | — |     | x |
+
+
+
+## Revisión del sprint 2 — Semana 3
+
+- Integrante que realizó la comprobación: [jhon alex morales]
+- Fecha de revisión: [27/10/2026]
+- Funcionalidades revisadas: creación, consulta, edición, eliminación,
+  estados, filtros y validaciones de tareas.
+- Resultado de la revisión: [Comprobación completa y funcional]
+- Pendientes encontrados: [Ninguno]
