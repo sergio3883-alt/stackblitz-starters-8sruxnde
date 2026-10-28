@@ -1,17 +1,12 @@
 const express = require('express');
+const path = require('path');
 const app = express();
 
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', (req, res) => {
-  res.json({ mensaje: 'API funcionando' });
-});
-
-const rutasIntegrantes = require('./src/routes/integrantes');
-const rutasTareas = require('./src/routes/tareas');
-
-app.use('/integrantes', rutasIntegrantes);
-app.use('/tareas', rutasTareas);
+app.use('/integrantes', require('./src/routes/integrantes'));
+app.use('/tareas', require('./src/routes/tareas'));
 
 const PORT = process.env.PORT || 3000;
 
