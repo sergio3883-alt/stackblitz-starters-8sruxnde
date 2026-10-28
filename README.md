@@ -1,3 +1,179 @@
+# Gestor de tareas en equipo
+
+## Caso de uso
+
+Caso 1: Gestor de tareas en equipo.
+
+## Integrantes del equipo
+
+- [Sergio Andrés Muñoz Gallego]
+- [Jhon ALex Morales]
+- [Tatiana wualteros]
+- [Jhon Ferney Gallego]
+## Descripción
+
+Aplicación que permite registrar integrantes y gestionar las tareas de un
+equipo. Cada tarea contiene título, descripción, responsable, estado y fecha
+límite.
+
+Permite crear, listar, consultar, editar y eliminar tareas, cambiar su estado
+y filtrarlas por estado o responsable.
+
+Los responsables deben estar registrados. Los estados permitidos son
+pendiente, en progreso y hecha.
+
+## Enlaces
+
+- Aplicación en Render:
+  https://gestor-tareas-equipo.onrender.com/
+- Repositorio de GitHub:
+  https://github.com/sergio3883-alt/stackblitz-starters-8sruxnde
+
+## Tecnologías utilizadas
+
+- Node.js y Express para la API.
+- HTML, CSS y JavaScript para los formularios.
+- Arreglos en memoria para almacenar los datos.
+- StackBlitz para el desarrollo.
+- GitHub para el control de versiones.
+- Render para el despliegue.
+
+## Cómo utilizar la aplicación
+
+1. Abrir el enlace de Render.
+2. Registrar un integrante indicando nombre y correo electrónico.
+3. Completar los campos de Nueva tarea y seleccionar un responsable registrado.
+4. Pulsar Crear tarea.
+5. Utilizar Ver detalle para consultar toda la información.
+6. Utilizar Editar y Guardar cambios para modificar una tarea o su estado.
+7. Seleccionar los filtros y pulsar Filtrar.
+8. Pulsar Limpiar filtros para recuperar el listado completo.
+9. Utilizar Eliminar y confirmar para borrar una tarea.
+10. Pulsar Actualizar para consultar nuevamente los datos del equipo.
+
+## Ejecución en StackBlitz
+
+Desde la raíz del proyecto:
+
+```bash
+npm install
+```
+
+```bash
+node index.js
+```
+
+Abrir la vista previa del puerto 3000 y mantener el servidor activo.
+
+## Endpoints disponibles
+
+| Método | Ruta | Función | Respuesta exitosa |
+|---|---|---|---|
+| POST | /integrantes | Registrar un integrante | 201 |
+| GET | /integrantes | Listar integrantes | 200 |
+| GET | /integrantes/:id | Consultar un integrante | 200 |
+| POST | /tareas | Crear una tarea | 201 |
+| GET | /tareas | Listar tareas | 200 |
+| GET | /tareas/:id | Consultar una tarea | 200 |
+| PUT | /tareas/:id | Editar una tarea y su estado | 200 |
+| DELETE | /tareas/:id | Eliminar una tarea | 204 |
+| GET | /tareas?estado=pendiente | Filtrar por estado | 200 |
+| GET | /tareas?responsable=1 | Filtrar por responsable | 200 |
+
+Las respuestas de la API utilizan JSON, excepto la eliminación exitosa,
+que devuelve 204 sin contenido.
+
+Los datos inválidos generan una respuesta 400. La consulta de un integrante
+inexistente y la consulta, edición o eliminación de una tarea inexistente
+generan una respuesta 404.
+
+## Ejemplos para probar los endpoints
+
+Estos ejemplos se ejecutan desde una terminal compatible con curl.
+
+Los identificadores 1 son ejemplos. Deben reemplazarse por los identificadores
+reales devueltos al registrar el integrante y crear la tarea. La eliminación
+debe ejecutarse al final.
+
+### Registrar un integrante
+
+```bash
+curl -i -X POST https://gestor-tareas-equipo.onrender.com/integrantes \
+  -H "Content-Type: application/json" \
+  -d '{"nombre":"Ana López","correo":"ana@example.com"}'
+```
+
+### Listar integrantes
+
+```bash
+curl -i https://gestor-tareas-equipo.onrender.com/integrantes
+```
+
+### Consultar un integrante
+
+```bash
+curl -i https://gestor-tareas-equipo.onrender.com/integrantes/1
+```
+
+### Crear una tarea
+
+```bash
+curl -i -X POST https://gestor-tareas-equipo.onrender.com/tareas \
+  -H "Content-Type: application/json" \
+  -d '{"titulo":"Preparar informe","descripcion":"Revisar los resultados del equipo.","responsable":1,"estado":"pendiente","fechaLimite":"2026-11-06"}'
+```
+
+### Listar tareas
+
+```bash
+curl -i https://gestor-tareas-equipo.onrender.com/tareas
+```
+
+### Consultar una tarea
+
+```bash
+curl -i https://gestor-tareas-equipo.onrender.com/tareas/1
+```
+
+### Editar una tarea y cambiar su estado
+
+La edición requiere enviar todos los campos modificables.
+
+```bash
+curl -i -X PUT https://gestor-tareas-equipo.onrender.com/tareas/1 \
+  -H "Content-Type: application/json" \
+  -d '{"titulo":"Revisar informe","descripcion":"Verificar la entrega final.","responsable":1,"estado":"en progreso","fechaLimite":"2026-11-07"}'
+```
+
+### Filtrar por estado
+
+```bash
+curl -i "https://gestor-tareas-equipo.onrender.com/tareas?estado=pendiente"
+```
+
+### Filtrar por responsable
+
+```bash
+curl -i "https://gestor-tareas-equipo.onrender.com/tareas?responsable=1"
+```
+
+### Eliminar una tarea
+
+```bash
+curl -i -X DELETE https://gestor-tareas-equipo.onrender.com/tareas/1
+```
+
+## Pruebas
+
+Los casos de prueba, las entradas utilizadas y los resultados obtenidos
+están registrados en pruebas.md.
+
+## Almacenamiento de los datos
+
+Los integrantes y las tareas se almacenan en arreglos en memoria.
+Los registros se borran al reiniciar el servidor o realizar un nuevo
+despliegue. Los datos de StackBlitz y Render son independientes.
+
 Product Backlog
 
 Historias De Usuario:
