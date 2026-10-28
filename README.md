@@ -10,6 +10,7 @@ Caso 1: Gestor de tareas en equipo.
 - [Jhon ALex Morales]
 - [Tatiana wualteros]
 - [Jhon Ferney Gallego]
+- [Juan Perez]
 
 ## Descripción
 
