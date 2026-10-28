@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gestor de tareas en equipo</title>
+  <style>
+    :root { color-scheme: light; --fondo:#f4f6fa; --texto:#172438; --suave:#526178; --borde:#dce3ed; --azul:#254fac; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--fondo); color:var(--texto); font:16px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    header { background:#182c4a; color:white; padding:30px max(24px,calc((100vw - 1180px)/2)); }
+    header small { color:#b9d2ff; letter-spacing:.1em; text-transform:uppercase; font-weight:700; }
+    h1 { margin:5px 0 4px; font-size:clamp(26px,4vw,36px); letter-spacing:-.035em; }
+    header p { margin:0; color:#d1dced; }
+    main { max-width:1228px; margin:auto; padding:24px; }
+    h2 { font-size:20px; margin:0 0 4px; }
+    h3 { font-size:16px; margin:20px 0 8px; }
+    .ayuda { margin:0 0 18px; color:var(--suave); font-size:14px; }
+    .panel { background:white; border:1px solid var(--borde); border-radius:14px; padding:24px; box-shadow:0 3px 12px #17243805; }
+    .formularios { display:grid; grid-template-columns:minmax(260px,.8fr) minmax(0,1.6fr); gap:20px; margin-bottom:20px; align-items:start; }
+    .campos { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .ancho { grid-column:1/-1; }
+    label { display:block; font-size:14px; font-weight:650; margin-bottom:5px; }
+    input,select,textarea,button { font:inherit; }
+    input,select,textarea { width:100%; padding:10px 12px; border:1px solid #afbdce; border-radius:7px; background:white; color:var(--texto); }
+    textarea { resize:vertical; min-height:80px; }
+    input:focus,select:focus,textarea:focus,button:focus-visible { outline:3px solid #98baff; outline-offset:2px; }
+    button { cursor:pointer; border:1px solid transparent; border-radius:7px; padding:10px 15px; background:var(--azul); color:white; font-weight:650; }
+    button:hover { filter:brightness(.94); }
+    button:disabled { opacity:.55; cursor:wait; }
+    .secundario { background:white; color:#30445f; border-color:#b5c2d3; }
+    .peligro { color:#a32434; background:#fff4f5; border-color:#edc2c8; }
+    .acciones { display:flex; flex-wrap:wrap; gap:8px; margin-top:18px; }
+    .acciones button { font-size:14px; }
+    .integrantes { list-style:none; padding:0; margin:0; max-height:240px; overflow:auto; }
+    .integrantes li { border-top:1px solid #e9edf3; padding:10px 0; }
+    .integrantes strong,.integrantes span { display:block; overflow-wrap:anywhere; }
+    .integrantes span { color:var(--suave); font-size:13px; }
+    .mensaje { margin-bottom:18px; border-radius:8px; padding:12px 16px; background:#e7f3eb; border:1px solid #9ccbae; color:#164b2d; overflow-wrap:anywhere; }
+    .mensaje.error { background:#fff0f1; border-color:#e1a6af; color:#8c1a2b; }
+    .cabecera-lista { display:flex; justify-content:space-between; gap:16px; align-items:center; margin-bottom:18px; }
+    .cabecera-lista p { margin:0; }
+    .filtros { display:flex; flex-wrap:wrap; gap:12px; align-items:end; padding:16px; background:#f7f9fc; border:1px solid #e7ecf3; border-radius:9px; margin-bottom:18px; }
+    .filtros > div { flex:1 1 180px; }
+    .filtros .acciones { margin:0; flex:0 1 auto; }
+    .tabla { overflow-x:auto; }
+    table { width:100%; border-collapse:collapse; text-align:left; }
+    th { font-size:12px; text-transform:uppercase; letter-spacing:.05em; color:var(--suave); background:#f7f9fc; }
+    th,td { padding:13px 12px; border-bottom:1px solid #e7ecf3; vertical-align:top; }
+    td { font-size:14px; }
+    .titulo-tarea { min-width:170px; font-weight:650; overflow-wrap:anywhere; }
+    .id-tarea { display:block; color:var(--suave); font-weight:400; font-size:12px; }
+    .estado { display:inline-block; padding:3px 9px; border-radius:20px; white-space:nowrap; background:#fff3d5; color:#75521b; font-size:12px; font-weight:700; }
+    .estado.progreso { background:#e8efff; color:#254a9d; }
+    .estado.hecha { background:#e1f2e9; color:#216441; }
+    td .acciones { margin:0; flex-wrap:nowrap; }
+    td button { padding:6px 9px; font-size:12px; }
+    .vacio { padding:30px 12px; text-align:center; color:var(--suave); }
+    footer { margin:20px 0 0; font-size:13px; color:var(--suave); }
+    dialog { width:min(560px,calc(100% - 32px)); border:1px solid var(--borde); border-radius:14px; padding:24px; color:var(--texto); }
+    dialog::backdrop { background:#17243877; }
+    dl { display:grid; grid-template-columns:110px minmax(0,1fr); gap:12px; }
+    dt { font-weight:650; } dd { margin:0; white-space:pre-wrap; overflow-wrap:anywhere; }
+    [hidden] { display:none !important; }
+    @media(max-width:760px) { main { padding:16px; } header { padding:24px 16px; } .formularios { grid-template-columns:1fr; } .panel { padding:18px; } .campos { grid-template-columns:1fr; } .cabecera-lista { align-items:start; } }
+  </style>
+</head>
+<body>
+  <header>
+    <small>Trabajo en equipo</small>
+    <h1>Gestor de tareas</h1>
+    <p>Organiza las actividades, asigna responsables y actualiza su avance.</p>
+  </header>
+  <main>
+    <div id="mensaje" class="mensaje" role="status" aria-live="polite" hidden></div>
+    <div class="formularios">
+      <section class="panel" aria-labelledby="titulo-integrantes">
+        <h2 id="titulo-integrantes">Integrantes</h2>
+        <p class="ayuda">Registra a las personas que podrán recibir tareas.</p>
+        <form id="form-integrante">
+          <div class="campos">
+            <div class="ancho"><label for="nombre">Nombre</label><input id="nombre" name="nombre" required autocomplete="name"></div>
+            <div class="ancho"><label for="correo">Correo electrónico</label><input id="correo" name="correo" type="email" required autocomplete="email"></div>
+          </div>
+          <div class="acciones"><button type="submit">Registrar integrante</button></div>
+        </form>
+        <h3>Equipo registrado</h3>
+        <ul id="lista-integrantes" class="integrantes"><li>Cargando integrantes…</li></ul>
+      </section>
+      <section class="panel" aria-labelledby="titulo-form-tarea">
+        <h2 id="titulo-form-tarea">Nueva tarea</h2>
+        <p class="ayuda" id="ayuda-tarea">Completa todos los campos para crear una tarea.</p>
+        <form id="form-tarea">
+          <div class="campos">
+            <div class="ancho"><label for="titulo">Título</label><input id="titulo" name="titulo" required></div>
+            <div class="ancho"><label for="descripcion">Descripción</label><textarea id="descripcion" name="descripcion" required></textarea></div>
+            <div><label for="responsable">Responsable</label><select id="responsable" name="responsable" required><option value="">Selecciona un integrante</option></select></div>
+            <div><label for="estado">Estado</label><select id="estado" name="estado" required><option value="pendiente">Pendiente</option><option value="en progreso">En progreso</option><option value="hecha">Hecha</option></select></div>
+            <div class="ancho"><label for="fechaLimite">Fecha límite</label><input id="fechaLimite" name="fechaLimite" type="date" required></div>
+          </div>
+          <div class="acciones">
+            <button id="guardar-tarea" type="submit">Crear tarea</button>
+            <button id="cancelar-edicion" type="button" class="secundario" hidden>Cancelar edición</button>
+          </div>
+        </form>
+      </section>
+    </div>
+    <section class="panel" aria-labelledby="titulo-listado">
+      <div class="cabecera-lista">
+        <div><h2 id="titulo-listado">Tareas del equipo</h2><p id="conteo" class="ayuda">Cargando tareas…</p></div>
+        <button id="actualizar" class="secundario" type="button">Actualizar</button>
+      </div>
+      <form id="form-filtros" class="filtros">
+        <div><label for="filtro-estado">Estado</label><select id="filtro-estado"><option value="">Todos los estados</option><option value="pendiente">Pendiente</option><option value="en progreso">En progreso</option><option value="hecha">Hecha</option></select></div>
+        <div><label for="filtro-responsable">Responsable</label><select id="filtro-responsable"><option value="">Todos los integrantes</option></select></div>
+        <div class="acciones"><button type="submit">Filtrar</button><button id="limpiar-filtros" type="button" class="secundario">Limpiar filtros</button></div>
+      </form>
+      <div class="tabla">
+        <table>
+          <caption class="ayuda" style="text-align:left">Listado según los filtros seleccionados.</caption>
+          <thead><tr><th scope="col">Tarea</th><th scope="col">Responsable</th><th scope="col">Estado</th><th scope="col">Fecha límite</th><th scope="col">Acciones</th></tr></thead>
+          <tbody id="filas-tareas"></tbody>
+        </table>
+      </div>
+      <p id="sin-tareas" class="vacio" hidden>No hay tareas para los filtros seleccionados.</p>
+    </section>
+    <footer>Los datos se guardan temporalmente y se borran cuando se reinicia el servicio.</footer>
+  </main>
+  <dialog id="detalle" aria-labelledby="titulo-detalle">
+    <h2 id="titulo-detalle">Detalle de la tarea</h2>
+    <dl id="datos-detalle"></dl>
+    <form method="dialog"><button type="submit" class="secundario">Cerrar</button></form>
+  </dialog>
+  <script>
+    const porId = id => document.getElementById(id);
+    let integrantes = [];
+    let tareaEnEdicion = null;
+    let ocupado = false;
+
+    function informar(texto, error = false) {
+      const mensaje = porId('mensaje');
+      mensaje.textContent = texto;
+      mensaje.classList.toggle('error', error);
+      mensaje.hidden = false;
+    }
+
+    async function solicitar(ruta, metodo = 'GET', datos) {
+      let respuesta;
+      try {
+        respuesta = await fetch(ruta, {
+          method: metodo,
+          headers: { 'Content-Type': 'application/json' },
+          body: datos === undefined ? undefined : JSON.stringify(datos),
+          cache: 'no-store',
+          signal: AbortSignal.timeout(60000)
+        });
+      } catch {
+        throw new Error('No se pudo conectar con el servicio. Espera un momento y pulsa Actualizar.');
+      }
+      const texto = await respuesta.text();
+      let contenido = null;
+      if (texto) {
+        try { contenido = JSON.parse(texto); }
+        catch { throw new Error('El servicio no devolvió una respuesta válida. Inténtalo de nuevo en un momento.'); }
+      }
+      if (!respuesta.ok) throw new Error(contenido?.error || 'No se pudo completar la operación.');
+      return contenido;
+    }
+
+    async function ejecutar(accion) {
+      if (ocupado) return;
+      ocupado = true;
+      document.querySelectorAll('button').forEach(boton => { boton.disabled = true; });
+      try { await accion(); }
+      catch (error) { informar(error.message, true); }
+      finally {
+        ocupado = false;
+        document.querySelectorAll('button').forEach(boton => { boton.disabled = false; });
+      }
+    }
+
+    function rellenarResponsables() {
+      for (const [id, textoInicial] of [['responsable', 'Selecciona un integrante'], ['filtro-responsable', 'Todos los integrantes']]) {
+        const selector = porId(id);
+        const anterior = selector.value;
+        selector.replaceChildren(new Option(textoInicial, ''));
+        integrantes.forEach(integrante => selector.add(new Option(integrante.nombre + ' (#' + integrante.id + ')', integrante.id)));
+        if (integrantes.some(integrante => String(integrante.id) === anterior)) selector.value = anterior;
+      }
+      const lista = porId('lista-integrantes');
+      lista.replaceChildren();
+      if (!integrantes.length) {
+        const item = document.createElement('li');
+        item.textContent = 'Todavía no hay integrantes. Registra el primero para asignar tareas.';
+        lista.append(item);
+      }
+      integrantes.forEach(integrante => {
+        const item = document.createElement('li');
+        const nombre = document.createElement('strong');
+        const correo = document.createElement('span');
+        nombre.textContent = integrante.nombre + ' · #' + integrante.id;
+        correo.textContent = integrante.correo;
+        item.append(nombre, correo);
+        lista.append(item);
+      });
+    }
+
+    function nombreResponsable(id) {
+      return integrantes.find(integrante => integrante.id === id)?.nombre || 'Integrante #' + id;
+    }
+
+    function presentarFecha(fecha) {
+      const partes = fecha.split('-');
+      return partes.length === 3 ? partes[2] + '/' + partes[1] + '/' + partes[0] : fecha;
+    }
+
+    async function cargarTareas() {
+      const parametros = new URLSearchParams();
+      if (porId('filtro-estado').value) parametros.set('estado', porId('filtro-estado').value);
+      if (porId('filtro-responsable').value) parametros.set('responsable', porId('filtro-responsable').value);
+      const consulta = parametros.toString();
+      const tareas = await solicitar('/tareas' + (consulta ? '?' + consulta : ''));
+      const cuerpo = porId('filas-tareas');
+      cuerpo.replaceChildren();
+      tareas.forEach(tarea => {
+        const fila = document.createElement('tr');
+        const titulo = document.createElement('td');
+        titulo.className = 'titulo-tarea';
+        titulo.append(document.createTextNode(tarea.titulo));
+        const id = document.createElement('span');
+        id.className = 'id-tarea';
+        id.textContent = 'Tarea #' + tarea.id;
+        titulo.append(id);
+        const responsable = document.createElement('td');
+        responsable.textContent = nombreResponsable(tarea.responsable);
+        const estado = document.createElement('td');
+        const etiqueta = document.createElement('span');
+        etiqueta.className = 'estado' + (tarea.estado === 'en progreso' ? ' progreso' : tarea.estado === 'hecha' ? ' hecha' : '');
+        etiqueta.textContent = tarea.estado;
+        estado.append(etiqueta);
+        const fecha = document.createElement('td');
+        fecha.textContent = presentarFecha(tarea.fechaLimite);
+        const acciones = document.createElement('td');
+        const grupo = document.createElement('div');
+        grupo.className = 'acciones';
+        for (const [texto, accion, clase] of [['Ver detalle', () => verDetalle(tarea.id), 'secundario'], ['Editar', () => editar(tarea.id), 'secundario'], ['Eliminar', () => eliminar(tarea.id), 'peligro']]) {
+          const boton = document.createElement('button');
+          boton.type = 'button';
+          boton.textContent = texto;
+          boton.className = clase;
+          boton.setAttribute('aria-label', texto + ' tarea #' + tarea.id);
+          boton.addEventListener('click', () => ejecutar(accion));
+          grupo.append(boton);
+        }
+        acciones.append(grupo);
+        fila.append(titulo, responsable, estado, fecha, acciones);
+        cuerpo.append(fila);
+      });
+      porId('sin-tareas').hidden = tareas.length > 0;
+      porId('conteo').textContent = tareas.length + (tareas.length === 1 ? ' tarea encontrada' : ' tareas encontradas');
+    }
+
+    async function actualizarTodo() {
+      integrantes = await solicitar('/integrantes');
+      rellenarResponsables();
+      await cargarTareas();
+    }
+
+    function cancelarEdicion() {
+      tareaEnEdicion = null;
+      porId('form-tarea').reset();
+      porId('titulo-form-tarea').textContent = 'Nueva tarea';
+      porId('ayuda-tarea').textContent = 'Completa todos los campos para crear una tarea.';
+      porId('guardar-tarea').textContent = 'Crear tarea';
+      porId('cancelar-edicion').hidden = true;
+    }
+
+    async function editar(id) {
+      const tarea = await solicitar('/tareas/' + id);
+      tareaEnEdicion = tarea.id;
+      for (const campo of ['titulo', 'descripcion', 'responsable', 'estado', 'fechaLimite']) porId(campo).value = tarea[campo];
+      porId('titulo-form-tarea').textContent = 'Editar tarea #' + tarea.id;
+      porId('ayuda-tarea').textContent = 'Modifica los campos y guarda los cambios.';
+      porId('guardar-tarea').textContent = 'Guardar cambios';
+      porId('cancelar-edicion').hidden = false;
+      porId('form-tarea').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      porId('titulo').focus({ preventScroll: true });
+    }
+
+    async function verDetalle(id) {
+      const tarea = await solicitar('/tareas/' + id);
+      const lista = porId('datos-detalle');
+      lista.replaceChildren();
+      const campos = [['Identificador', tarea.id], ['Título', tarea.titulo], ['Descripción', tarea.descripcion], ['Responsable', nombreResponsable(tarea.responsable) + ' (#' + tarea.responsable + ')'], ['Estado', tarea.estado], ['Fecha límite', presentarFecha(tarea.fechaLimite)]];
+      campos.forEach(([nombre, valor]) => {
+        const etiqueta = document.createElement('dt');
+        const contenido = document.createElement('dd');
+        etiqueta.textContent = nombre;
+        contenido.textContent = valor;
+        lista.append(etiqueta, contenido);
+      });
+      porId('detalle').showModal();
+    }
+
+    async function eliminar(id) {
+      if (!confirm('¿Eliminar la tarea #' + id + '?')) return;
+      await solicitar('/tareas/' + id, 'DELETE');
+      if (tareaEnEdicion === id) cancelarEdicion();
+      informar('Tarea eliminada correctamente.');
+      await cargarTareas();
+    }
+
+    porId('form-integrante').addEventListener('submit', evento => {
+      evento.preventDefault();
+      ejecutar(async () => {
+        const nombre = porId('nombre').value.trim();
+        const correo = porId('correo').value.trim();
+        if (!nombre || !correo) throw new Error('Completa el nombre y el correo del integrante.');
+        const nuevo = await solicitar('/integrantes', 'POST', { nombre, correo });
+        porId('form-integrante').reset();
+        informar('Integrante registrado correctamente.');
+        await actualizarTodo();
+        porId('responsable').value = nuevo.id;
+      });
+    });
+
+    porId('form-tarea').addEventListener('submit', evento => {
+      evento.preventDefault();
+      ejecutar(async () => {
+        const datos = {
+          titulo: porId('titulo').value.trim(),
+          descripcion: porId('descripcion').value.trim(),
+          responsable: Number(porId('responsable').value),
+          estado: porId('estado').value,
+          fechaLimite: porId('fechaLimite').value
+        };
+        if (!datos.titulo || !datos.descripcion || !datos.fechaLimite || !datos.responsable) throw new Error('Completa todos los campos y selecciona un responsable registrado.');
+        const editando = tareaEnEdicion !== null;
+        await solicitar(editando ? '/tareas/' + tareaEnEdicion : '/tareas', editando ? 'PUT' : 'POST', datos);
+        cancelarEdicion();
+        informar(editando ? 'Tarea actualizada correctamente.' : 'Tarea creada correctamente.');
+        await cargarTareas();
+      });
+    });
+
+    porId('cancelar-edicion').addEventListener('click', cancelarEdicion);
+    porId('form-filtros').addEventListener('submit', evento => { evento.preventDefault(); ejecutar(cargarTareas); });
+    porId('limpiar-filtros').addEventListener('click', () => { porId('form-filtros').reset(); ejecutar(cargarTareas); });
+    porId('actualizar').addEventListener('click', () => ejecutar(actualizarTodo));
+    ejecutar(actualizarTodo);
+  </script>
+</body>
+</html>
